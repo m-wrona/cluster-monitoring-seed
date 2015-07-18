@@ -1,0 +1,14 @@
+---
+- name: Check if elasticsearch image is present
+  shell: "docker images -q {{ elasticsearch_image }}"
+  register: is_elasticsearch_image_present
+  tags:
+    - elasticsearch
+    - provision
+
+- name: Download elasticsearch image if it's not present
+  shell: "docker pull {{ elasticsearch_image }}"
+  tags:
+    - elasticsearch
+    - provision
+  when: is_elasticsearch_image_present.stdout == ""

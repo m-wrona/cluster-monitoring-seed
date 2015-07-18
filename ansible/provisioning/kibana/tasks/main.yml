@@ -1,0 +1,14 @@
+---
+- name: Check if kibana image is present
+  shell: "docker images -q {{ kibana_image }}"
+  register: is_kibana_image_present
+  tags:
+    - kibana
+    - provision
+
+- name: Download kibana image if it's not present
+  shell: "docker pull {{ kibana_image }}"
+  tags:
+    - kibana
+    - provision
+  when: is_kibana_image_present.stdout == ""
