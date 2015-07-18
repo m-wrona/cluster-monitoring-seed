@@ -1,1 +1,92 @@
 ---
+
+- name: Create logstash conf directory
+  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - logstash
+    - deploy
+
+- name: Create logstash pattern directory
+  file: path={{ remote_patterns }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - logstash
+    - deploy
+
+- name: Create logstash cert directory
+  file: path={{ cert_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - logstash
+    - deploy    
+
+- name: Copy logstash lumberjack input conf
+  template: src=01-lumberjack-input.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash syslog conf
+  template: src=10-syslog.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash nginx conf
+  template: src=11-nginx.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash lumberjack output conf
+  template: src=30-lumberjack-output.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash SSL certificate
+  copy: src={{ env }}.crt dest={{ cert_dir }}/{{ app_name }}.crt mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash SSL public key
+  copy: src={{ env }}.key dest={{ cert_dir }}/{{ app_name }}.key mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash nginx pattern
+  copy: src=nginx.pattern dest={{ remote_patterns }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Stop logstash docker containers
+  tags:
+    - logstash
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ logstash_image }}"
+    state: stopped
+  with_items: logstash_instances
+
+- name: Start logstash docker containers
+  tags:
+    - logstash
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ logstash_image }}"
+    state: reloaded
+    restart_policy: always
+    ports:
+    - "{{ item.port }}:{{ logstash_port }}"
+    volumes:
+    - "{{ remote_conf }}:{{ logstash_conf }}"
+    - "{{ remote_patterns }}:{{ logstash_patterns }}"
+    - "{{ remote_log_dir }}:{{ log_dir }}"
+    - "{{ cert_dir }}:{{ cert_dir }}"
+  with_items: logstash_instances

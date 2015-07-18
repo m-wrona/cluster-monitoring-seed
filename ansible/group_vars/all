@@ -4,7 +4,14 @@ app_name: cluster-monitoring
 
 # app directory structure
 app_root_dir: "/usr/share/{{ app_name }}/{{ env }}"
+cert_dir: "{{ app_root_dir }}/ssl"
 log_root_dir: "/var/log/{{ app_name }}/{{ env }}"
+
+# logstash
+logstash_port: 5000
+logstash_instances:
+  - name: "{{ app_name }}-{{ env }}-logstash-1"
+    port: 5000
 
 # docker images
 logstash_image: logstash
