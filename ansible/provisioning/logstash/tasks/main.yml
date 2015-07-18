@@ -1,0 +1,14 @@
+---
+- name: Check if logstash image is present
+  shell: "docker images -q {{ logstash_image }}"
+  register: is_logstash_image_present
+  tags:
+    - logstash
+    - provision
+
+- name: Download logstash image if it's not present
+  shell: "docker pull {{ logstash_image }}"
+  tags:
+    - logstash
+    - provision
+  when: is_logstash_image_present.stdout == ""

@@ -1,0 +1,9 @@
+---
+
+# logs
+log_dir: /var/log/logstash
+remote_log_dir: "{{ log_root_dir }}/logstash"
+
+# docker
+local_docker_be_dir: ../../../../../docker/logstash
+remote_docker_dir: /root/docker/logstash

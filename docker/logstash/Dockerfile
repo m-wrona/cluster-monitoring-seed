@@ -11,11 +11,11 @@ RUN cd /tmp && \
 RUN /opt/logstash/bin/plugin install contrib
 
 # Copy build files to container root
-RUN mkdir /app
-ADD . /app
+RUN mkdir /usr/share/logstash
+ADD . /usr/share/logstash
 
 # Set default data directory
-ENV DATA_DIR /data
+ENV DATA_DIR /usr/share/logstash
 
 # Define mountable directory
 VOLUME ${DATA_DIR}
