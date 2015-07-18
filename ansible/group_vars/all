@@ -1,0 +1,7 @@
+---
+
+app_name: cluster-monitoring
+
+# app directory structure
+app_root_dir: "/usr/share/{{ app_name }}/{{ env }}"
+log_root_dir: "/var/log/{{ app_name }}/{{ env }}"
