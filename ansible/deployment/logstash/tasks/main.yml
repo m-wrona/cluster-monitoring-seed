@@ -19,7 +19,7 @@
     - deploy
 
 - name: Create logstash cert directory
-  file: path={{ cert_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  file: path={{ cert_dir }} state=directory mode="u=rwx,g=xr,o=rx"
   tags:
     - logstash
     - deploy    
@@ -61,13 +61,13 @@
       - deploy
 
 - name: Copy logstash SSL certificate
-  copy: src={{ env }}.crt dest={{ cert_dir }}/{{ app_name }}.crt mode="u=rx,g=rx,o=rx"
+  copy: src={{ env }}.crt dest={{ cert_dir }}/logstash.crt mode="u=rx,g=rx,o=rx"
   tags:
       - logstash
       - deploy
 
 - name: Copy logstash SSL public key
-  copy: src={{ env }}.key dest={{ cert_dir }}/{{ app_name }}.key mode="u=rx,g=rx,o=rx"
+  copy: src={{ env }}.key dest={{ cert_dir }}/logstash.key mode="u=rx,g=rx,o=rx"
   tags:
       - logstash
       - deploy
