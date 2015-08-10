@@ -12,6 +12,12 @@
     - logstash
     - deploy
 
+- name: Create logstash remote log directory
+  file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rwx"
+  tags:
+    - logstash
+    - deploy
+
 - name: Create logstash cert directory
   file: path={{ cert_dir }} state=directory mode="u=rwx,g=xr,o=x"
   tags:
@@ -38,6 +44,18 @@
 
 - name: Copy logstash lumberjack output conf
   template: src=30-lumberjack-output.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Deleting old main logstash config file
+  file: path="{{ remote_conf }}/logstash.conf" state=absent
+  tags:
+      - logstash
+      - deploy
+
+- name: Merging partial config files into one main logstash config file 
+  assemble: src={{ remote_conf }} dest="{{ remote_conf }}/logstash.conf" delimiter='\n' mode="u=rx,g=rx,o=rx"
   tags:
       - logstash
       - deploy
@@ -80,6 +98,7 @@
   docker:
     name: "{{ item.name }}"
     image: "{{ logstash_image }}"
+    command: "logstash agent --config {{ logstash_conf }}/logstash.conf --log {{ log_dir }}/logstash.log"
     state: reloaded
     restart_policy: always
     ports:
