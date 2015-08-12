@@ -1,13 +1,13 @@
 ---
 
 - name: Create logstash conf directory
-  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=x"
+  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=xr"
   tags:
     - logstash
     - deploy
 
 - name: Create logstash pattern directory
-  file: path={{ remote_patterns }} state=directory mode="u=rwx,g=xr,o=x"
+  file: path={{ remote_patterns }} state=directory mode="u=rwx,g=xr,o=xr"
   tags:
     - logstash
     - deploy
