@@ -5,7 +5,7 @@ logstash_conf: /etc/logstash/conf.d
 remote_conf: "{{ app_root_dir }}/logstash/conf.d"
 
 # patterns
-logstash_patterns: /opt/logstash/patterns
+logstash_patterns: /etc/logstash/patterns.d
 remote_patterns: "{{ app_root_dir }}/logstash/patterns"
 
 # logs
