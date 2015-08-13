@@ -18,6 +18,12 @@
     - elasticsearch
     - deploy
 
+- name: Copy elasticsearch conf
+  template: src=elasticsearch.yml dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - elasticsearch
+      - deploy
+
 - name: Stop elasticsearch docker containers
   tags:
     - elasticsearch
