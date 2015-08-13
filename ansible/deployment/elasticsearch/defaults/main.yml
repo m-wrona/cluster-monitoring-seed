@@ -1,0 +1,13 @@
+---
+
+# conf
+elastic_conf: /usr/share/elasticsearch/config
+remote_conf: "{{ app_root_dir }}/elasticsearch/conf.d"
+
+# data
+elastic_data: /usr/share/elasticsearch/data
+remote_data: "{{ app_root_dir }}/elasticsearch/data"
+
+# logs
+log_dir: /var/log/elasticsearch
+remote_log_dir: "{{ log_root_dir }}/elasticsearch"

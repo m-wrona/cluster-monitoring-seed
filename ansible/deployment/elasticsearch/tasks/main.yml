@@ -1,0 +1,51 @@
+---
+
+- name: Create elasticsearch conf directory
+  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - elasticsearch
+    - deploy
+
+- name: Create elasticsearch data directory
+  file: path={{ remote_data }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - elasticsearch
+    - deploy
+
+- name: Create elasticsearch remote log directory
+  file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rwx"
+  tags:
+    - elasticsearch
+    - deploy
+
+- name: Stop elasticsearch docker containers
+  tags:
+    - elasticsearch
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ elasticsearch_image }}"
+    state: stopped
+  with_items: elastic_instances
+
+- name: Start elasticsearch docker containers
+  tags:
+    - elasticsearch
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ elasticsearch_image }}"
+    state: reloaded
+    restart_policy: always
+    ports:
+    - "{{ item.port_1 }}:{{ elastic_port_1 }}"
+    - "{{ item.port_2 }}:{{ elastic_port_2 }}"
+    volumes:
+    - "{{ remote_conf }}:{{ elastic_conf }}"
+    - "{{ remote_data }}:{{ elastic_data }}"
+    - "{{ remote_log_dir }}:{{ log_dir }}"
+    - "{{ cert_dir }}:{{ cert_dir }}"
+  with_items: elastic_instances

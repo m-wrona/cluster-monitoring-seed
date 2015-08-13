@@ -13,6 +13,14 @@ logstash_instances:
   - name: "{{ app_name }}-{{ env }}-logstash-1"
     port: 5000
 
+# elasticsearch
+elastic_port_1: 9200
+elastic_port_2: 9300
+elastic_instances:
+  - name: "{{ app_name }}-{{ env }}-elasticsearch-1"
+    port_1: 9200
+    port_2: 9300
+
 # docker images
 logstash_image: logstash
 elasticsearch_image: elasticsearch
