@@ -40,6 +40,8 @@
     image: "{{ elasticsearch_image }}"
     state: reloaded
     restart_policy: always
+    links:
+    - "{{ logstash_instances[0].name }}:{{ logstash_instances[0].name }}"
     ports:
     - "{{ item.port_1 }}:{{ elastic_port_1 }}"
     - "{{ item.port_2 }}:{{ elastic_port_2 }}"
