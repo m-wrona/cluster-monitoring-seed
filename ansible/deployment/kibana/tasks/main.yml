@@ -1,0 +1,57 @@
+---
+
+- name: Create kibana conf directory
+  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - kibana
+    - deploy
+
+- name: Create kibana data directory
+  file: path={{ remote_data }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - kibana
+    - deploy
+
+- name: Create kibana remote log directory
+  file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rwx"
+  tags:
+    - kibana
+    - deploy
+
+#- name: Copy kibana conf
+#  template: src=kibana.yml dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+#  tags:
+#      - kibana
+#      - deploy
+
+- name: Stop kibana docker containers
+  tags:
+    - kibana
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ kibana_image }}"
+    state: stopped
+  with_items: kibana_instances
+
+- name: Start kibana docker containers
+  tags:
+    - kibana
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ kibana_image }}"
+    state: reloaded
+    restart_policy: always
+    links:
+    - "{{ elastic_instances[0].name }}:{{ elastic_instances[0].name }}"
+    ports:
+    - "{{ item.port }}:{{ kibana_port }}"
+    volumes:
+    - "{{ remote_conf }}:{{ elastic_conf }}"
+    - "{{ remote_log_dir }}:{{ log_dir }}"
+    - "{{ cert_dir }}:{{ cert_dir }}"
+  with_items: kibana_instances
