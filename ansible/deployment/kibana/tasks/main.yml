@@ -46,6 +46,8 @@
     image: "{{ kibana_image }}"
     state: reloaded
     restart_policy: always
+    env:
+      ELASTICSEARCH_URL: http://{{ elastic_instances[0].name }}:{{ elastic_port_1 }}
     links:
     - "{{ elastic_instances[0].name }}:{{ elastic_instances[0].name }}"
     ports:
