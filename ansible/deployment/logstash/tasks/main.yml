@@ -101,6 +101,8 @@
     command: "logstash agent --config {{ logstash_conf }}/logstash.conf --log {{ log_dir }}/logstash.log"
     state: reloaded
     restart_policy: always
+    expose:
+    - "{{ logstash_port }}"
     ports:
     - "{{ item.port }}:{{ logstash_port }}"
     volumes:
