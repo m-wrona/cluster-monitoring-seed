@@ -105,6 +105,8 @@
     - "{{ logstash_port }}"
     ports:
     - "{{ item.port }}:{{ logstash_port }}"
+    links:
+    - "{{ elastic_instances[0].name }}:{{ elastic_instances[0].name }}"
     volumes:
     - "{{ remote_conf }}:{{ logstash_conf }}"
     - "{{ remote_patterns }}:{{ logstash_patterns }}"
