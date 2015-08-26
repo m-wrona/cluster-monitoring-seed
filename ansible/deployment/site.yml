@@ -3,6 +3,20 @@
 - hosts: all
   sudo: yes
   roles:
-    - logstash
     - elasticsearch
+  tasks:
+    - name: waiting till elasticsearch is up
+      wait_for: port="{{ elastic_port_1 }}" delay=10
+
+- hosts: all
+  sudo: yes
+  roles:
+    - logstash
+  tasks:
+    - name: waiting till logstash is up
+      wait_for: port="{{ logstash_port }}" delay=10
+
+- hosts: all
+  sudo: yes
+  roles:
     - kibana

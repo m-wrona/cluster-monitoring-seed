@@ -9,5 +9,5 @@ elastic_data: /usr/share/elasticsearch/data
 remote_data: "{{ app_root_dir }}/elasticsearch/data"
 
 # logs
-log_dir: /usr/share/elasticsearch/log
+log_dir: /usr/share/elasticsearch/logs
 remote_log_dir: "{{ log_root_dir }}/elasticsearch"

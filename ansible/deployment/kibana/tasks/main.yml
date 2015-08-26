@@ -6,12 +6,6 @@
     - kibana
     - deploy
 
-- name: Create kibana data directory
-  file: path={{ remote_data }} state=directory mode="u=rwx,g=xr,o=xr"
-  tags:
-    - kibana
-    - deploy
-
 - name: Create kibana remote log directory
   file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rwx"
   tags:
@@ -53,7 +47,7 @@
     ports:
     - "{{ item.port }}:{{ kibana_port }}"
     volumes:
-    - "{{ remote_conf }}:{{ elastic_conf }}"
+    - "{{ remote_conf }}:{{ kibana_conf }}"
     - "{{ remote_log_dir }}:{{ log_dir }}"
     - "{{ cert_dir }}:{{ cert_dir }}"
   with_items: kibana_instances
