@@ -4,7 +4,7 @@ Sample seed for cluster's monitoring.
 
 Cluster is built basing on:
 - Log-stash: log aggregator
-- Elastic-search: search engine 
+- Elastic-search: search engine, load-balancer 
 - Kibana: analytics and visualization
 - Docker: virtualization 
 - Ansible: deployment & provisioning
