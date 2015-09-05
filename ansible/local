@@ -1,6 +1,6 @@
 [app-nodes]
 monitoring-node1 ansible_connection=ssh ansible_ssh_host=10.10.2.30 ansible_ssh_user=vagrant
-# monitoring-node2 ansible_connection=ssh ansible_ssh_host=10.10.2.31 ansible_ssh_user=vagrant
+monitoring-node2 ansible_connection=ssh ansible_ssh_host=10.10.2.31 ansible_ssh_user=vagrant
 
 [app-nodes:vars]
 env=dev
