@@ -12,11 +12,11 @@
     - kibana
     - deploy
 
-#- name: Copy kibana conf
-#  template: src=kibana.yml dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
-#  tags:
-#      - kibana
-#      - deploy
+- name: Copy kibana conf
+  template: src=kibana.yml dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - kibana
+      - deploy
 
 - name: Stop kibana docker containers
   tags:

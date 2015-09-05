@@ -1,9 +1,9 @@
 ---
 
 # conf
-kibana_conf: /usr/local/share/kibana/config
+kibana_conf: /opt/kibana/config
 remote_conf: "{{ app_root_dir }}/kibana/conf.d"
 
 # logs
-log_dir: /var/log/kibana
+log_dir: /var/log
 remote_log_dir: "{{ log_root_dir }}/kibana"
