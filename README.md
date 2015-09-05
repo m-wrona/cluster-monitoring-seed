@@ -54,18 +54,48 @@ cd ansible
 ansible-playbook -i {{env}} deployment/site.yml
 ```
 
-After deployment running instances can be checked using following command:
+# Local development
+
+To speed up local development & testing Vagrant configuration is provided.
+
+In order to star virtual cluster locally just hit:
+
+```shell
+vagrant up
+```
+
+After that two nodes will be started:
+
+- monitoring-node1: 10.10.2.30
+- monitoring-node2: 10.10.2.31
+
+Don't forget to provide your key later on while performing any activities on cluster, for instance:
+
+```shell
+cd ansible
+# ansible with provided private key
+ansible-playbook -i {{env}} provisioning/site.yml  --private-key=~/.vagrant.d/insecure_private_key
+```
+
+# Checking cluster state
+
+After deployment running services on cluster can be checked using following command:
 
 ```shell 
-ansible all -i {{env}} -a "docker ps"
+ansible all -i {{env}} -a "docker ps "
 ```
 
-Sample output of "docker ps":
+For local cluster on Vagrant it looks like following:
+
+```shell 
+ansible all -i local -a "docker ps" --sudo --private-key=~/.vagrant.d/insecure_private_key
+```
+
+Sample output of "docker ps" for local cluster:
 
 ```preformated
-TODO
+TODO add traces here
 ```
-
 
 # Ansible - common commands
 
