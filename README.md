@@ -9,6 +9,10 @@ Cluster is built basing on:
 - Docker: virtualization 
 - Ansible: deployment & provisioning
 
+***Note:***
+
+Monitoring is prepared to watch over sample [cluster-seed](https://github.com/m-wrona/cluster-seed). 
+
 # Infrastructure
 
 Basic cluster monitoring configuration looks like following:
